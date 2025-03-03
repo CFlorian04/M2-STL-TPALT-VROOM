@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import {MatButton} from "@angular/material/button";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  imports: [
-    MatButton
-  ],
-  styleUrls: ['./app.component.css']
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'angular-material-project';
+  title = 'vroom';
 }

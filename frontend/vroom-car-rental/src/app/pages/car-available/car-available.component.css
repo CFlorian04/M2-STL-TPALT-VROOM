@@ -1,0 +1,92 @@
+.car-available-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #3f51b5;
+}
+
+.content-wrapper {
+  display: flex;
+  gap: 30px;
+}
+
+.filters-panel {
+  width: 300px;
+  flex-shrink: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  align-self: flex-start;
+  position: sticky;
+  top: 20px;
+}
+
+.filters-panel h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #3f51b5;
+}
+
+.cars-panel {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.price-range {
+  margin-bottom: 16px;
+}
+
+.price-range h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.price-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.price-inputs mat-form-field {
+  flex: 1;
+}
+
+.cars-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.loading-spinner,
+.no-cars-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.no-cars-message p {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+
+  .filters-panel {
+    width: 100%;
+    position: static;
+  }
+}
+

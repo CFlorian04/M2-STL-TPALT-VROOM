@@ -1,0 +1,125 @@
+<div class="home-container">
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Drive Your Dreams with VROOM</h1>
+      <p>Rent the perfect car for your next adventure</p>
+      <div class="hero-buttons">
+        <a mat-raised-button color="primary" routerLink="/cars">BROWSE CARS</a>
+        <a mat-raised-button color="accent" routerLink="/about">LEARN MORE</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <h2 class="section-title">Why Choose VROOM?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <mat-icon>verified_user</mat-icon>
+        <h3>Quality Guaranteed</h3>
+        <p>All our vehicles are regularly serviced and maintained to ensure your safety and comfort.</p>
+      </div>
+      <div class="feature-card">
+        <mat-icon>attach_money</mat-icon>
+        <h3>Best Price</h3>
+        <p>Competitive pricing with no hidden fees. Get the best value for your money.</p>
+      </div>
+      <div class="feature-card">
+        <mat-icon>speed</mat-icon>
+        <h3>Fast & Easy</h3>
+        <p>Quick booking process and hassle-free pickup and return procedures.</p>
+      </div>
+      <div class="feature-card">
+        <mat-icon>support_agent</mat-icon>
+        <h3>24/7 Support</h3>
+        <p>Our customer support team is always available to assist you with any questions or issues.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-cars-section">
+    <h2 class="section-title">Featured Cars</h2>
+    
+    <div *ngIf="isLoading" class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+    
+    <div *ngIf="!isLoading && featuredCars.length === 0" class="no-cars-message">
+      <p>No featured cars available at the moment. Please check back later.</p>
+    </div>
+    
+    <div *ngIf="!isLoading && featuredCars.length > 0" class="cars-grid">
+      <app-car-card 
+        *ngFor="let car of featuredCars" 
+        [car]="car" 
+        (reserve)="reserveCar($event)">
+      </app-car-card>
+    </div>
+    
+    <div class="view-all-container">
+      <a mat-raised-button color="primary" routerLink="/cars">VIEW ALL CARS</a>
+    </div>
+  </section>
+
+  <section class="testimonials-section">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <p>"VROOM made my vacation perfect! The car was clean, comfortable, and exactly what I needed."</p>
+        </div>
+        <div class="testimonial-author">
+          <img src="assets/images/testimonial-1.jpg" alt="John Doe">
+          <div>
+            <h4>John Doe</h4>
+            <div class="rating">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <p>"Excellent service and great prices. The booking process was quick and easy. Highly recommended!"</p>
+        </div>
+        <div class="testimonial-author">
+          <img src="assets/images/testimonial-2.jpg" alt="Jane Smith">
+          <div>
+            <h4>Jane Smith</h4>
+            <div class="rating">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star_half</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-content">
+          <p>"I've been using VROOM for all my business trips. Their fleet is always in top condition and the staff is very professional."</p>
+        </div>
+        <div class="testimonial-author">
+          <img src="assets/images/testimonial-3.jpg" alt="Robert Johnson">
+          <div>
+            <h4>Robert Johnson</h4>
+            <div class="rating">
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+              <mat-icon>star</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+

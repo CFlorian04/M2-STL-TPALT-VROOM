@@ -1,0 +1,118 @@
+<div class="car-details-container">
+  <div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div *ngIf="!isLoading && !car" class="not-found">
+    <h2>Car Not Found</h2>
+    <p>The car you're looking for doesn't exist or has been removed.</p>
+    <a mat-raised-button color="primary" routerLink="/cars">Browse Cars</a>
+  </div>
+  
+  <div *ngIf="!isLoading && car" class="car-details">
+    <div class="car-header">
+      <a mat-icon-button routerLink="/cars" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <h1>{{car.make}} {{car.model}} <span class="car-year">{{car.year}}</span></h1>
+    </div>
+    
+    <div class="car-content">
+      <div class="car-gallery">
+        <img [src]="car.imageUrl" [alt]="car.make + ' ' + car.model" class="main-image">
+        
+        <div class="car-features">
+          <div class="feature">
+            <mat-icon>airline_seat_recline_normal</mat-icon>
+            <span>{{car.seats}} seats</span>
+          </div>
+          <div class="feature">
+            <mat-icon>local_gas_station</mat-icon>
+            <span>{{car.fuelType}}</span>
+          </div>
+          <div class="feature">
+            <mat-icon>settings</mat-icon>
+            <span>{{car.transmission}}</span>
+          </div>
+          <div class="feature">
+            <mat-icon>speed</mat-icon>
+            <span>{{car.mileage}} miles</span>
+          </div>
+          <div class="feature">
+            <mat-icon>color_lens</mat-icon>
+            <span>{{car.color}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="car-info">
+        <mat-card>
+          <mat-card-content>
+            <h2>About this car</h2>
+            <p>{{car.description}}</p>
+            
+            <div class="price-section">
+              <div class="price-tag">
+                <span class="price">${{car.pricePerDay}}</span> / day
+              </div>
+            </div>
+            
+            <div class="reservation-form">
+              <h3>Reserve this car</h3>
+              <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Pickup Location</mat-label>
+                  <input matInput formControlName="pickupLocation" placeholder="Enter pickup location">
+                  <mat-icon matSuffix>location_on</mat-icon>
+                  <mat-error *ngIf="reservationForm.get('pickupLocation')?.hasError('required')">
+                    Pickup location is required
+                  </mat-error>
+                </mat-form-field>
+                
+                <div class="date-fields">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="startPicker" formControlName="startDate" [min]="minDate" [max]="maxDate">
+                    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startPicker></mat-datepicker>
+                    <mat-error *ngIf="reservationForm.get('startDate')?.hasError('required')">
+                      Start date is required
+                    </mat-error>
+                  </mat-form-field>
+                  
+                  <mat-form-field appearance="outline">
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="endPicker" formControlName="endDate" [min]="minDate" [max]="maxDate">
+                    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endPicker></mat-datepicker>
+                    <mat-error *ngIf="reservationForm.get('endDate')?.hasError('required')">
+                      End date is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                
+                <mat-error *ngIf="reservationForm.hasError('dateRange')" class="date-range-error">
+                  End date must be after start date
+                </mat-error>
+                
+                <div *ngIf="calculateTotalPrice() > 0" class="total-price">
+                  <span>Total Price:</span>
+                  <span class="price">${{calculateTotalPrice()}}</span>
+                </div>
+                
+                <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="!isLoggedIn || reservationForm.invalid">
+                  Reserve Now
+                </button>
+                
+                <div *ngIf="!isLoggedIn" class="login-message">
+                  <p>Please <a routerLink="/login">login</a> to reserve this car</p>
+                </div>
+              </form>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+

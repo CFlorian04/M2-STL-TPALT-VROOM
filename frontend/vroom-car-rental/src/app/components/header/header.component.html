@@ -1,0 +1,44 @@
+<mat-toolbar color="primary" class="header">
+  <div class="logo-container">
+    <a routerLink="/" class="logo">
+      <mat-icon>directions_car</mat-icon>
+      <span>VROOM</span>
+    </a>
+  </div>
+  
+  <div class="spacer"></div>
+  
+  <nav class="nav-links">
+    <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a mat-button routerLink="/cars" routerLinkActive="active">Cars</a>
+    <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+    <ng-container *ngIf="isLoggedIn">
+      <a mat-button routerLink="/reservations" routerLinkActive="active">My Reservations</a>
+      <a mat-button routerLink="/profile" routerLinkActive="active">Profile</a>
+      <button mat-button (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-container *ngIf="!isLoggedIn">
+      <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+      <a mat-raised-button color="accent" routerLink="/register" routerLinkActive="active">Register</a>
+    </ng-container>
+  </nav>
+  
+  <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <a mat-menu-item routerLink="/">Home</a>
+    <a mat-menu-item routerLink="/cars">Cars</a>
+    <a mat-menu-item routerLink="/about">About</a>
+    <ng-container *ngIf="isLoggedIn">
+      <a mat-menu-item routerLink="/reservations">My Reservations</a>
+      <a mat-menu-item routerLink="/profile">Profile</a>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-container *ngIf="!isLoggedIn">
+      <a mat-menu-item routerLink="/login">Login</a>
+      <a mat-menu-item routerLink="/register">Register</a>
+    </ng-container>
+  </mat-menu>
+</mat-toolbar>
+
