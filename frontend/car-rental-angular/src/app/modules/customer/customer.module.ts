@@ -7,6 +7,10 @@ import { NgZorroImportsModule } from '../../NgZorroImportsModule'
 import { BookCarComponent } from './components/book-car/book-car.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MyBookingsComponent } from './components/my-bookings/my-bookings.component'
+import { MatCard, MatCardActions, MatCardContent, MatCardSubtitle, MatCardTitle } from '@angular/material/card'
+import { MatProgressSpinner } from '@angular/material/progress-spinner'
+import { MatGridList, MatGridTile } from '@angular/material/grid-list'
+import { MatList, MatListItem } from '@angular/material/list'
 
 @NgModule({
   declarations: [CustomerDashboardComponent, BookCarComponent, MyBookingsComponent],
@@ -15,7 +19,17 @@ import { MyBookingsComponent } from './components/my-bookings/my-bookings.compon
     CustomerRoutingModule,
     NgZorroImportsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCard,
+    MatCardContent,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardActions,
+    MatProgressSpinner,
+    MatGridList,
+    MatGridTile,
+    MatList,
+    MatListItem
   ]
 })
 export class CustomerModule {}

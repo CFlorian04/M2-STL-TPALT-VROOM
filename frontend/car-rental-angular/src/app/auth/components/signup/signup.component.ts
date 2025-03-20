@@ -1,65 +1,55 @@
-import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from '../services/auth/auth.service'
-import { NzMessageService } from 'ng-zorro-antd/message'
-import { Router } from '@angular/router'
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card'
+import { MatFormField, MatLabel } from '@angular/material/form-field'
+import { MatInput } from '@angular/material/input'
+import { MatButton } from '@angular/material/button'
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.scss'
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatFormField,
+    ReactiveFormsModule,
+    MatInput,
+    MatLabel,
+    MatButton
+  ],
+  styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  isSpinning: boolean = false
-
-  // ! means that the property will be initialized later in the code and will not be null or undefined when used in the code
-  signupForm!: FormGroup
+  signupForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private message: NzMessageService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.signupForm = this.fb.group({
-      name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]]
-    })
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true }
-    } else if (control.value !== this.signupForm.controls['password'].value) {
-      return { confirm: true, error: true }
-    }
-    return {}
-  }
-
-  register(): void {
-    console.log(this.signupForm.value)
-    this.authService.register(this.signupForm.value).subscribe(
-      res => {
-        console.log('res', res)
-
-        if (res.id !== null) {
-          this.message.success('User registered successfully', {
-            nzDuration: 5000
-          })
-          this.router.navigateByUrl('/login')
-        } else {
-          this.message.error('User registration failed', {
-            nzDuration: 5000
-          })
+  onsignup() {
+    if (this.signupForm.valid) {
+      this.authService.register(this.signupForm.value).subscribe(
+        () => {
+          this.router.navigate(['/login']);
+        },
+        (err: any) => {
+          console.error(err);
         }
-      },
-      err => {
-        console.log(err)
-      }
-    )
+      );
+    }
   }
 }

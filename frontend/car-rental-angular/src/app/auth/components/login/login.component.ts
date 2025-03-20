@@ -1,60 +1,54 @@
-import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { AuthService } from '../services/auth/auth.service'
-import { StorageService } from '../services/storage/storage.service'
-import { Router } from '@angular/router'
-import { NzMessageService } from 'ng-zorro-antd/message'
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
+import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card'
+import { MatFormField, MatLabel } from '@angular/material/form-field'
+import { MatInput } from '@angular/material/input'
+import { MatButton } from '@angular/material/button'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  standalone: true,
+  imports: [
+    MatCard,
+    MatCardHeader,
+    MatCardContent,
+    MatLabel,
+    MatFormField,
+    ReactiveFormsModule,
+    MatInput,
+    MatButton
+  ],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  isSpinning: boolean = false
-  loginForm!: FormGroup
+  loginForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router,
-    private message: NzMessageService
+    private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.loginForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]]
-    })
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
-  login() {
-    this.authService.login(this.loginForm.value).subscribe(res => {
-      console.log(res)
-
-      if (res.userId != null) {
-        const user = {
-          id: res.userId,
-          role: res.userRole
+  onLogin() {
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe(
+        res => {
+          this.router.navigate(['/dashboard']);
+        },
+        err => {
+          console.error(err);
         }
-
-        StorageService.saveUser(user)
-        StorageService.saveToken(res.jwt)
-
-        if (StorageService.isAdminLoggedIn()) {
-          this.router.navigateByUrl('/admin/dashboard')
-          return
-        }
-
-        if (StorageService.isCustomerLoggedIn()) {
-          this.router.navigateByUrl('/customer/dashboard')
-          return
-        }
-
-        this.message.error('Bad credentials', {
-          nzDuration: 3000
-        })
-      }
-    })
+      );
+    }
   }
 }

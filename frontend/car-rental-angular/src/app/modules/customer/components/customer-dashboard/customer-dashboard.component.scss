@@ -1,0 +1,26 @@
+.mat-grid-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.mat-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .mat-card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .mat-card-subtitle {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .mat-card-actions {
+    justify-content: flex-end;
+  }
+}
