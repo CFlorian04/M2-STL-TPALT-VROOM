@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.services.auth_service import register_user, authenticate_user
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from app.extensions import db  # Import relatif correct
 
 auth_bp = Blueprint("auth_bp", __name__, url_prefix="/auth")
 
@@ -18,10 +19,10 @@ def register():
 def login():
     data = request.json
     token = authenticate_user(data["email"], data["mot_de_passe"])
-    
+
     if not token:
         return jsonify({"message": "Identifiants invalides"}), 401
-    
+
     return jsonify({"access_token": token})
 
 @auth_bp.route("/profile", methods=["GET"])

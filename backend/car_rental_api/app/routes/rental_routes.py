@@ -1,8 +1,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.services.rental_service import get_all_rentals, create_rental, delete_rental
+from app.extensions import db  # Import relatif correct
 
 rental_bp = Blueprint("rental_bp", __name__, url_prefix="/rentals")
+
 
 @rental_bp.route("/", methods=["GET"])
 @jwt_required()

@@ -6,6 +6,8 @@ from app.services.car_service import (
     get_all_cars, create_car, delete_car
 )
 
+from app.extensions import db  # Import relatif correct
+
 car_bp = Blueprint("car_bp", __name__, url_prefix="/cars")
 
 # Récupérer tous les modèles
@@ -21,7 +23,6 @@ def fetch_models():
         "categorie": m.categorie,
         "image_voiture": base64.b64encode(m.image_voiture).decode('utf-8') if m.image_voiture else None
     } for m in models])
-@car_bp.route("/models", methods=["GET"])
 
 # Créer un nouveau modèle
 @car_bp.route("/models", methods=["POST"])

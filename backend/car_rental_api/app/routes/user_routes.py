@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
 from app.services.user_service import get_all_users, get_user_by_id, create_user, update_user, delete_user
+from app.extensions import db  # Import relatif correct
 
 user_bp = Blueprint("user_bp", __name__, url_prefix="/users")
+
 
 @user_bp.route("/", methods=["GET"])
 def fetch_users():
