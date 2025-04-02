@@ -9,11 +9,15 @@ import { ExamplesModule } from './examples/examples.module';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
+import {HttpClientModule} from "@angular/common/http";
+import { ReservationDialogComponent } from './reservation-dialog/reservation-dialog.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        NavbarComponent
+        NavbarComponent,
+        VehiclesComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -22,7 +26,9 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
         RouterModule,
         AppRoutingModule,
         ComponentsModule,
-        ExamplesModule
+        ReservationDialogComponent,
+        ExamplesModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]

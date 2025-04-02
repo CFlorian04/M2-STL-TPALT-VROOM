@@ -26,7 +26,7 @@ def fetch_models():
 
 # Créer un nouveau modèle
 @car_bp.route("/models", methods=["POST"])
-@jwt_required()
+#@jwt_required()
 def create_new_model():
     data = request.json
     image = base64.b64decode(data["image_voiture"]) if "image_voiture" in data else None
@@ -35,7 +35,7 @@ def create_new_model():
 
 # Modifier un modèle existant
 @car_bp.route("/models/<int:id>", methods=["PUT"])
-@jwt_required()
+#@jwt_required()
 def update_existing_model(id):
     data = request.json
     image = base64.b64decode(data["image_voiture"]) if "image_voiture" in data else None
@@ -44,7 +44,7 @@ def update_existing_model(id):
 
 # Supprimer un modèle
 @car_bp.route("/models/<int:id>", methods=["DELETE"])
-@jwt_required()
+#@jwt_required()
 def remove_model(id):
     delete_model(id)
     return jsonify({"message": "Modèle supprimé"})
@@ -62,7 +62,7 @@ def fetch_cars():
 
 # Créer une nouvelle voiture
 @car_bp.route("/", methods=["POST"])
-@jwt_required()
+#@jwt_required()
 def create_new_car():
     data = request.json
     car = create_car(data)
@@ -70,7 +70,7 @@ def create_new_car():
 
 # Supprimer une voiture
 @car_bp.route("/<int:id>", methods=["DELETE"])
-@jwt_required()
+#@jwt_required()
 def remove_car(id):
     delete_car(id)
     return jsonify({"message": "Voiture supprimée"})

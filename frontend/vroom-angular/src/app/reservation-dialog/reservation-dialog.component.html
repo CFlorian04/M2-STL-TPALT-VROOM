@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title">Réserver {{ car.marque }} {{ car.model }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="startDate">Date de début</label>
+        <div class="input-group">
+            <input id="startDate" class="form-control datetimepicker ng-valid ng-touched ng-dirty" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="startDate.toggle()" type="button"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="endDate">Date de fin</label>
+        <div class="input-group">
+            <input id="endDate" class="form-control datetimepicker ng-valid ng-touched ng-dirty" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="endDate.toggle()" type="button"></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close({ startDate: startDate.formControl.value, endDate: endDate.formControl.value })">Réserver</button>
+</div>

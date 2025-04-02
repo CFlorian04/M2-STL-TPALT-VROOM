@@ -8,12 +8,13 @@ import { LandingComponent } from './examples/landing/landing.component';
 import { LoginComponent } from './examples/login/login.component';
 import { ProfileComponent } from './examples/profile/profile.component';
 import { NucleoiconsComponent } from './components/nucleoicons/nucleoicons.component';
+import {VehiclesComponent} from "./vehicles/vehicles.component";
 
 const routes: Routes =[
     { path: '', redirectTo: 'index', pathMatch: 'full' },
     { path: 'index',                component: ComponentsComponent },
     { path: 'login',                component: LoginComponent },
-    { path: 'vehicles',             component:LandingComponent },
+    { path: 'vehicles',             component: VehiclesComponent },
     { path: 'vehicles/:id',         component:LandingComponent },
     { path: 'profile',               component: ProfileComponent },
     { path: 'your-reservations',    component: ProfileComponent },

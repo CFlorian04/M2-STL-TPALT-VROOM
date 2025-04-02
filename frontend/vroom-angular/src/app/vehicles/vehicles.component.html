@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <div class="page-header page-header-small">
+        <div class="page-header-image rellax-header" data-rellax-speed="-8" style="background-image: url('assets/img/vehicles_background.jpg');">
+        </div>
+        <div class="container">
+            <div class="content-center">
+                <h1 class="title">Réserver votre voiture</h1>
+            </div>
+        </div>
+    </div>
+    <div class="section section-about-us">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto text-center">
+                    <h2 class="title">Nos Voitures Disponibles</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" *ngFor="let car of cars">
+                    <div class="card">
+                        <img [src]="car.image" class="card-img-top img-fixed-height" alt="Car Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ car.marque }} {{ car.model }}</h5>
+                            <p class="card-text">Année: {{ car.annee }}</p>
+                            <p class="card-text">Prix: {{ car.prix }} €/jour</p>
+                            <button class="btn btn-primary" (click)="openReservationDialog(car)">Réserver</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .img-fixed-height {
+        height: 200px; /* Vous pouvez ajuster cette valeur selon vos besoins */
+        width: 100%;
+        object-fit: cover;
+    }
+</style>
