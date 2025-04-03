@@ -16,7 +16,7 @@ def create_app():
 
     # Configuration de la base de données PostgreSQL
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'supersecretkey')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://admin:password@db:5432/car_rental_db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://admin:zStHuhyDHR9XdUW8rMMQgUo9Ag83H339@dpg-cvn8pmfgi27c73bivi4g-a.oregon-postgres.render.com/car_rental_db_rv72')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialisation de l'extension SQLAlchemy
