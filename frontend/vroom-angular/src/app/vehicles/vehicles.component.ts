@@ -24,7 +24,7 @@ export class VehiclesComponent implements OnInit {
     navbar.classList.add('navbar-transparent');
 
     // Appel à l'API pour récupérer la liste des voitures
-    this.http.get<any[]>('http://localhost:5000/cars/models').subscribe(
+    this.http.get<any[]>('https://m2-stl-tpalt-vroom.onrender.com/cars/models').subscribe(
         data => {
           console.log(data);
           this.cars = data.map(car => ({
