@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-navbar',
@@ -9,18 +11,31 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
-    protected isLoggedIn: boolean;
-    private router: any;
+    isLoggedIn: boolean = false;
+    userName: string = '';
 
-    constructor(public location: Location, private element : ElementRef) {
+    constructor(
+        public location: Location, 
+        private element: ElementRef,
+        private authService: AuthService,
+        private router: Router
+    ) {
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-        this.isLoggedIn = true;
+        
+        // Subscribe to auth state changes
+        this.authService.currentUser.subscribe(user => {
+            this.isLoggedIn = !!user;
+            if (user) {
+                this.userName = `${user.firstName} ${user.lastName}`;
+            }
+        });
     }
+
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
@@ -31,16 +46,15 @@ export class NavbarComponent implements OnInit {
 
         this.sidebarVisible = true;
     };
+
     sidebarClose() {
         const html = document.getElementsByTagName('html')[0];
-        // console.log(html);
         this.toggleButton.classList.remove('toggled');
         this.sidebarVisible = false;
         html.classList.remove('nav-open');
     };
+
     sidebarToggle() {
-        // const toggleButton = this.toggleButton;
-        // const body = document.getElementsByTagName('body')[0];
         if (this.sidebarVisible === false) {
             this.sidebarOpen();
         } else {
@@ -49,22 +63,16 @@ export class NavbarComponent implements OnInit {
     };
 
     logout() {
-        localStorage.removeItem('token');
-        this.isLoggedIn = false;
-        this.router.navigate(['/login']);
-    }
-
-    login() {
-        this.isLoggedIn = true;
+        this.authService.logout();
     }
   
     isDocumentation() {
         var titlee = this.location.prepareExternalUrl(this.location.path());
-        if( titlee === '/documentation' ) {
+        if (titlee === '/documentation') {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 }
+

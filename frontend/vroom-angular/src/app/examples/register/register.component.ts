@@ -4,17 +4,20 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
     data: Date = new Date();
     focus: boolean;
     focus1: boolean;
-    loginForm: FormGroup;
+    focus2: boolean;
+    focus3: boolean;
+    registerForm: FormGroup;
     isLoading = false;
     error: string = null;
+    success: string = null;
 
     constructor(
         private authService: AuthService,
@@ -29,7 +32,9 @@ export class LoginComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.loginForm = this.fb.group({
+        this.registerForm = this.fb.group({
+            firstName: ['', [Validators.required, Validators.minLength(2)]],
+            lastName: ['', [Validators.required, Validators.minLength(2)]],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
@@ -49,21 +54,26 @@ export class LoginComponent implements OnInit, OnDestroy {
         navbar.classList.remove('navbar-transparent');
     }
 
-    onLogin() {
-        if (this.loginForm.invalid) {
+    onRegister() {
+        if (this.registerForm.invalid) {
             return;
         }
 
         this.isLoading = true;
         this.error = null;
+        this.success = null;
 
-        const email = this.loginForm.value.email;
-        const password = this.loginForm.value.password;
+        const { firstName, lastName, email, password } = this.registerForm.value;
 
-        this.authService.login(email, password).subscribe(
+        this.authService.register(firstName, lastName, email, password).subscribe(
             response => {
                 this.isLoading = false;
-                this.router.navigate(['/vehicles']);
+                this.success = 'Inscription réussie ! Vous pouvez maintenant vous connecter.';
+                
+                // Redirect to login after a short delay
+                setTimeout(() => {
+                    this.router.navigate(['/login']);
+                }, 2000);
             },
             errorMessage => {
                 this.isLoading = false;
@@ -73,12 +83,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     // Helper methods for form validation
-    get emailControl() { return this.loginForm.get('email'); }
-    get passwordControl() { return this.loginForm.get('password'); }
+    get firstNameControl() { return this.registerForm.get('firstName'); }
+    get lastNameControl() { return this.registerForm.get('lastName'); }
+    get emailControl() { return this.registerForm.get('email'); }
+    get passwordControl() { return this.registerForm.get('password'); }
     
     hasError(controlName: string, errorName: string) {
-        return this.loginForm.get(controlName).hasError(errorName) && 
-               this.loginForm.get(controlName).touched;
+        return this.registerForm.get(controlName).hasError(errorName) && 
+               this.registerForm.get(controlName).touched;
     }
 }
 

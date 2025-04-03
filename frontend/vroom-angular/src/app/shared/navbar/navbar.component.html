@@ -1,24 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-primary fixed-top navbar-transparent" color-on-scroll="500">
     <div class="container">
-<!--      <div class="dropdown button-dropdown">-->
-<!--        <div ngbDropdown>-->
-<!--          <a class="dropdown-toggle" ngbDropdownToggle>-->
-<!--              <span class="button-bar"></span>-->
-<!--              <span class="button-bar"></span>-->
-<!--              <span class="button-bar"></span>-->
-<!--          </a>-->
-<!--           <div ngbDropdownMenu>-->
-<!--             <a class="dropdown-header">Dropdown header</a>-->
-<!--             <a class="dropdown-item" href="#">Action</a>-->
-<!--             <a class="dropdown-item" href="#">Another action</a>-->
-<!--             <a class="dropdown-item" href="#">Something else here</a>-->
-<!--             <div class="dropdown-divider"></div>-->
-<!--             <a class="dropdown-item" href="#">Separated link</a>-->
-<!--             <div class="dropdown-divider"></div>-->
-<!--             <a class="dropdown-item" href="#">One more separated link</a>-->
-<!--           </div>-->
-<!--         </div>-->
-<!--      </div>-->
         <div class="navbar-translate">
             <a class="navbar-brand" [routerLink]="['/index']" placement="bottom">
                 <img src="assets/img/vroom_logo.png" alt="VROOM logo" style="width: 150px;">
@@ -31,39 +12,50 @@
         </div>
         <div class="collapse navbar-collapse" data-nav-image="assets/img/blurred-image-1.jpg" data-color="red">
             <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                  <a class="nav-link btn btn-neutral" [routerLink]="['/vehicles']">
-                      <i class="now-ui-icons business_globe" style="padding-right: 5px"></i>
-                      <p>Vehicles</p>
-                  </a>
-              </li>
                 <li class="nav-item">
+                    <a class="nav-link btn btn-neutral" [routerLink]="['/vehicles']">
+                        <i class="now-ui-icons business_globe" style="padding-right: 5px"></i>
+                        <p>Véhicules</p>
+                    </a>
+                </li>
+                
+                <!-- Only show reservations link if logged in -->
+                <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link btn btn-neutral" [routerLink]="['/your-reservations']">
-                      <i class="now-ui-icons shopping_bag-16" style="padding-right: 5px"></i>
-                      <p>Your reservations</p>
+                        <i class="now-ui-icons shopping_bag-16" style="padding-right: 5px"></i>
+                        <p>Mes réservations</p>
                     </a>
                 </li>
-                <!-- If not logged show login/Register -->
+                
+                <!-- If not logged in, show login/register -->
                 <li class="nav-item" *ngIf="!isLoggedIn">
-                    <a class="nav-link btn btn-neutral" (click)="login()" [routerLink]="['/login']">
+                    <a class="nav-link btn btn-neutral" [routerLink]="['/login']">
                         <i class="now-ui-icons users_circle-08" style="padding-right: 5px"></i>
-                        <p> Login / Register</p>
+                        <p>Connexion</p>
                     </a>
                 </li>
-                <!-- If logged show log out -->
+                <li class="nav-item" *ngIf="!isLoggedIn">
+                    <a class="nav-link btn btn-neutral" [routerLink]="['/register']">
+                        <i class="now-ui-icons users_single-02" style="padding-right: 5px"></i>
+                        <p>Inscription</p>
+                    </a>
+                </li>
+                
+                <!-- If logged in, show profile and logout -->
                 <li class="nav-item" *ngIf="isLoggedIn">
-                    <a class="nav-link btn btn-neutral" (click)="logout()">
+                    <a class="nav-link btn btn-neutral" [routerLink]="['/profile']">
                         <i class="now-ui-icons users_circle-08" style="padding-right: 5px"></i>
-                        <p>Profile</p>
+                        <p>{{ userName }}</p>
                     </a>
                 </li>
                 <li class="nav-item" *ngIf="isLoggedIn">
                     <a class="nav-link btn btn-neutral" (click)="logout()">
-                        <i class="now-ui-icons users_circle-08" style="padding-right: 5px"></i>
-                        <p>Logout</p>
+                        <i class="now-ui-icons media-1_button-power" style="padding-right: 5px"></i>
+                        <p>Déconnexion</p>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
