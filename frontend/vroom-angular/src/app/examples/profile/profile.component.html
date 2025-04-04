@@ -5,144 +5,205 @@
         <div class="container">
             <div class="content-center">
                 <div class="photo-container">
-                    <img src="assets/img/ryan.jpg" alt="">
+                    <img src="assets/img/default-avatar.png" alt="">
                 </div>
-                <h3 class="title">Ryan Scheinder</h3>
-                <p class="category">Photographer</p>
-                <div class="content">
-                    <div class="social-description">
-                        <h2>26</h2>
-                        <p>Comments</p>
-                    </div>
-                    <div class="social-description">
-                        <h2>26</h2>
-                        <p>Comments</p>
-                    </div>
-                    <div class="social-description">
-                        <h2>48</h2>
-                        <p>Bookmarks</p>
-                    </div>
-                </div>
+                <h3 class="title" *ngIf="user">{{ user.firstName }} {{ user.lastName }}</h3>
+                <p class="category">Client VROOM</p>
             </div>
         </div>
     </div>
+    
     <div class="section">
         <div class="container">
-          <div class="button-container">
-              <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
-              <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Twitter">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#button" class="btn btn-default btn-round btn-lg btn-icon" rel="tooltip" title="Follow me on Instagram">
-                <i class="fab fa-instagram"></i>
-              </a>
-          </div>
-          <h3 class="title">About me</h3>
-          <h5 class="description">An artist of considerable range, Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music, giving it a warm, intimate feel with a solid groove structure. An artist of considerable range.</h5>
             <div class="row">
                 <div class="col-md-12">
-                    <h4 class="title text-center">My Portfolio</h4>
-                      <ngb-tabset [justify]="'center'" type="pills" class="nav nav-pills nav-pills-primary  nav-pills-just-icons justify-content-center tab-space">
-                          <ngb-tab>
-                            <ng-template ngbTabTitle>
-                              <i class="now-ui-icons design_image"></i>
-                            </ng-template>
-                              <ng-template ngbTabContent>
-                                <div class="row">
-                                  <div class="col-md-10 ml-auto mr-auto">
-                                      <div class="row collections">
-                                          <div class="col-md-6">
-                                              <img src="assets/img/bg1.jpg" alt="" class="img-raised">
-                                              <img src="assets/img/bg3.jpg" alt="" class="img-raised">
-                                          </div>
-                                          <div class="col-md-6">
-                                              <img src="assets/img/bg8.jpg" alt="" class="img-raised">
-                                              <img src="assets/img/bg7.jpg" alt="" class="img-raised">
-                                          </div>
-                                      </div>
-                                  </div>
+                    <!-- Tabs navigation -->
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <ul class="nav nav-tabs nav-tabs-primary justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" [ngClass]="{'active': activeTab === 1}" (click)="setActiveTab(1)" role="tab">
+                                        <i class="now-ui-icons users_single-02"></i> Profil
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" [ngClass]="{'active': activeTab === 2}" (click)="setActiveTab(2)" role="tab">
+                                        <i class="now-ui-icons shopping_cart-simple"></i> Mes réservations
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab content -->
+                    <div class="tab-content">
+                        <!-- Profile tab -->
+                        <div class="tab-pane" [ngClass]="{'active': activeTab === 1}">
+                            <div class="row">
+                                <div class="col-md-6 ml-auto mr-auto">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Informations personnelles</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <!-- Loading state -->
+                                            <div *ngIf="isLoading" class="text-center py-3">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="sr-only">Chargement...</span>
+                                                </div>
+                                                <p class="mt-2">Chargement des données...</p>
+                                            </div>
+                                            
+                                            <!-- Error message -->
+                                            <div *ngIf="error" class="alert alert-danger">
+                                                {{ error }}
+                                            </div>
+                                            
+                                            <!-- Success message -->
+                                            <div *ngIf="success" class="alert alert-success">
+                                                {{ success }}
+                                            </div>
+                                            
+                                            <!-- Profile form -->
+                                            <form *ngIf="!isLoading" [formGroup]="profileForm" (ngSubmit)="onUpdateProfile()">
+                                                <div class="form-group">
+                                                    <label for="firstName">Prénom</label>
+                                                    <input 
+                                                        type="text" 
+                                                        class="form-control" 
+                                                        id="firstName" 
+                                                        formControlName="firstName"
+                                                        [ngClass]="{'is-invalid': hasError('firstName', 'required') || hasError('firstName', 'minlength')}">
+                                                    <div *ngIf="hasError('firstName', 'required')" class="invalid-feedback">
+                                                        Le prénom est requis.
+                                                    </div>
+                                                    <div *ngIf="hasError('firstName', 'minlength')" class="invalid-feedback">
+                                                        Le prénom doit contenir au moins 2 caractères.
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label for="lastName">Nom</label>
+                                                    <input 
+                                                        type="text" 
+                                                        class="form-control" 
+                                                        id="lastName" 
+                                                        formControlName="lastName"
+                                                        [ngClass]="{'is-invalid': hasError('lastName', 'required') || hasError('lastName', 'minlength')}">
+                                                    <div *ngIf="hasError('lastName', 'required')" class="invalid-feedback">
+                                                        Le nom est requis.
+                                                    </div>
+                                                    <div *ngIf="hasError('lastName', 'minlength')" class="invalid-feedback">
+                                                        Le nom doit contenir au moins 2 caractères.
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <label for="email">Email</label>
+                                                    <input 
+                                                        type="email" 
+                                                        class="form-control" 
+                                                        id="email" 
+                                                        formControlName="email"
+                                                        [ngClass]="{'is-invalid': hasError('email', 'required') || hasError('email', 'email')}">
+                                                    <div *ngIf="hasError('email', 'required')" class="invalid-feedback">
+                                                        L'email est requis.
+                                                    </div>
+                                                    <div *ngIf="hasError('email', 'email')" class="invalid-feedback">
+                                                        Veuillez entrer un email valide.
+                                                    </div>
+                                                </div>
+                                                
+                                                <button 
+                                                    type="submit" 
+                                                    class="btn btn-primary btn-round"
+                                                    [disabled]="profileForm.invalid || isUpdating">
+                                                    <span *ngIf="isUpdating" class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>
+                                                    Mettre à jour
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                              </ng-template>
-                          </ngb-tab>
-                          <ngb-tab>
-                            <ng-template ngbTabTitle>
-                              <i class="now-ui-icons location_world"></i>
-                            </ng-template>
-                              <ng-template ngbTabContent>
-                                <div class="row">
-                                  <div class="col-md-10 ml-auto mr-auto">
-                                      <div class="row collections">
-                                          <div class="col-md-6">
-                                              <img src="assets/img/bg6.jpg" class="img-raised">
-                                              <img src="assets/img/bg11.jpg" alt="" class="img-raised">
-                                          </div>
-                                          <div class="col-md-6">
-                                              <img src="assets/img/bg7.jpg" alt="" class="img-raised">
-                                              <img src="assets/img/bg8.jpg" alt="" class="img-raised">
-                                          </div>
-                                      </div>
-                                  </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reservations tab -->
+                        <div class="tab-pane" [ngClass]="{'active': activeTab === 2}">
+                            <div class="row">
+                                <div class="col-md-10 ml-auto mr-auto">
+                                    <h4 class="title text-center">Mes réservations</h4>
+                                    
+                                    <!-- Loading state -->
+                                    <div *ngIf="loadingReservations" class="text-center py-3">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="sr-only">Chargement...</span>
+                                        </div>
+                                        <p class="mt-2">Chargement des réservations...</p>
+                                    </div>
+                                    
+                                    <!-- Error message -->
+                                    <div *ngIf="reservationError" class="alert alert-danger">
+                                        {{ reservationError }}
+                                    </div>
+                                    
+                                    <!-- No reservations message -->
+                                    <div *ngIf="!loadingReservations && !reservationError && reservations.length === 0" class="text-center py-3">
+                                        <p>Vous n'avez pas encore de réservations.</p>
+                                        <a [routerLink]="['/vehicles']" class="btn btn-primary btn-round">Voir les véhicules disponibles</a>
+                                    </div>
+                                    
+                                    <!-- Reservations list -->
+                                    <div *ngIf="!loadingReservations && !reservationError && reservations.length > 0" class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Véhicule</th>
+                                                    <th>Date de début</th>
+                                                    <th>Date de fin</th>
+                                                    <th>Statut</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let reservation of reservations">
+                                                    <td>{{ reservation.car?.marque }} {{ reservation.car?.model }}</td>
+                                                    <td>{{ formatDate(reservation.startDate) }}</td>
+                                                    <td>{{ formatDate(reservation.endDate) }}</td>
+                                                    <td>
+                                                        <span class="badge" [ngClass]="{
+                                                            'badge-success': reservation.status === 'confirmed',
+                                                            'badge-warning': reservation.status === 'pending',
+                                                            'badge-danger': reservation.status === 'cancelled'
+                                                        }">
+                                                            {{ reservation.status === 'confirmed' ? 'Confirmée' : 
+                                                               reservation.status === 'pending' ? 'En attente' : 'Annulée' }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <a [routerLink]="['/vehicles', reservation.car?.id]" class="btn btn-primary btn-sm btn-round">
+                                                            Voir le véhicule
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                              </ng-template>
-                          </ngb-tab>
-                          <ngb-tab>
-                            <ng-template ngbTabTitle>
-                              <i class="now-ui-icons sport_user-run"></i>
-                            </ng-template>
-                              <ng-template ngbTabContent>
-                                <div class="row">
-                                  <div class="col-md-10 ml-auto mr-auto">
-                                      <div class="row collections">
-                                          <div class="col-md-6">
-                                              <img src="assets/img/bg3.jpg" alt="" class="img-raised">
-                                              <img src="assets/img/bg8.jpg" alt="" class="img-raised">
-                                          </div>
-                                          <div class="col-md-6">
-                                              <img src="assets/img/bg7.jpg" alt="" class="img-raised">
-                                              <img src="assets/img/bg6.jpg" class="img-raised">
-                                          </div>
-                                      </div>
-                                  </div>
-                                </div>
-                              </ng-template>
-                          </ngb-tab>
-                      </ngb-tabset>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <footer class="footer footer-default">
         <div class="container">
-            <nav>
-                <ul>
-                    <li>
-                        <a href="https://www.creative-tim.com">
-                            Creative Tim
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.creative-tim.com/about-us">
-                            About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://blog.creative-tim.com">
-                            Blog
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/creativetimofficial/now-ui-kit/blob/master/LICENSE.md">
-                            MIT License
-                        </a>
-                    </li>
-                </ul>
-            </nav>
             <div class="copyright">
-                &copy;
-                {{data | date: 'yyyy'}}, Designed by
-                <a href="https://www.invisionapp.com" target="_blank">Invision</a>. Coded by
-                <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                &copy; {{ data | date: 'yyyy' }}, Réalisé par CODEBECQ Florian & RAZAFINDRAIBE Nandraina
             </div>
         </div>
     </footer>
 </div>
+

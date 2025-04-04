@@ -18,8 +18,8 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'vehicles', component: VehiclesComponent },
     { path: 'vehicles/:id', component: CarDetailComponent },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-    { path: 'your-reservations', component: ProfileComponent, canActivate: [AuthGuard] }
+    { path: 'profile', component: ProfileComponent},
+    { path: 'your-reservations', component: ProfileComponent}
 ];
 
 @NgModule({
