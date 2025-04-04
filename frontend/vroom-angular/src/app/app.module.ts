@@ -14,13 +14,15 @@ import {HttpClientModule} from "@angular/common/http";
 import {ReservationDialogComponent} from './reservation-dialog/reservation-dialog.component';
 import {RegisterComponent} from './examples/register/register.component';
 import {CarService} from "./services/car/car.service";
+import {CarDetailComponent} from "./car-detail/car-detail.component";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
         VehiclesComponent,
-        RegisterComponent
+        RegisterComponent,
+        CarDetailComponent
     ],
     imports: [
         BrowserAnimationsModule,

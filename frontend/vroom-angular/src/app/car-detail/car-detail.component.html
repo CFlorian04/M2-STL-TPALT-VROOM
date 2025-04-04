@@ -1,0 +1,149 @@
+<div class="wrapper">
+  <div class="page-header page-header-small">
+    <div class="page-header-image rellax-header" data-rellax-speed="-8" 
+         [style.background-image]="'url(' + car.image + ')'">
+    </div>
+    <div class="container">
+      <div class="content-center">
+        <h1 class="title">{{ car.marque }} {{ car.model }}</h1>
+        <div class="category">
+          <span class="badge badge-primary">{{ car.annee }}</span>
+          <span class="badge badge-info ml-2">{{ car.prix }}€/jour</span>
+          <span *ngIf="car.disponible" class="badge badge-success ml-2">Disponible</span>
+          <span *ngIf="!car.disponible" class="badge badge-danger ml-2">Non disponible</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <!-- Loading state -->
+      <div *ngIf="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Chargement...</span>
+        </div>
+        <p class="mt-3">Chargement des détails...</p>
+      </div>
+
+      <!-- Error state -->
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <!-- Car details -->
+      <div *ngIf="!loading && !error" class="row">
+        <!-- Car description -->
+        <div class="col-md-8">
+          <h3>Description</h3>
+          <p class="description">{{ car.description }}</p>
+
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <h3>Spécifications</h3>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-3">
+                      <i class="now-ui-icons objects_spaceship mr-2"></i>
+                      <strong>Moteur:</strong> {{ car.specifications.moteur }}
+                    </li>
+                    <li class="mb-3">
+                      <i class="now-ui-icons sport_user-run mr-2"></i>
+                      <strong>Puissance:</strong> {{ car.specifications.puissance }}
+                    </li>
+                    <li class="mb-3">
+                      <i class="now-ui-icons shopping_cart-simple mr-2"></i>
+                      <strong>Transmission:</strong> {{ car.specifications.transmission }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-3">
+                      <i class="now-ui-icons objects_support-17 mr-2"></i>
+                      <strong>Carburant:</strong> {{ car.specifications.carburant }}
+                    </li>
+                    <li class="mb-3">
+                      <i class="now-ui-icons business_chart-bar-32 mr-2"></i>
+                      <strong>Consommation:</strong> {{ car.specifications.consommation }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <h3>Caractéristiques</h3>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let feature of features.slice(0, Math.ceil(features.length/2))" class="mb-3">
+                      <i class="now-ui-icons ui-1_check text-success mr-2"></i> {{ feature }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let feature of features.slice(Math.ceil(features.length/2))" class="mb-3">
+                      <i class="now-ui-icons ui-1_check text-success mr-2"></i> {{ feature }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reservation card -->
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Réserver cette voiture</h4>
+              <p class="card-text">Prix: <strong>{{ car.prix }}€</strong> / jour</p>
+              <p class="card-text" *ngIf="car.disponible">Cette voiture est disponible à la location.</p>
+              <p class="card-text text-danger" *ngIf="!car.disponible">Cette voiture n'est pas disponible actuellement.</p>
+              <button 
+                class="btn btn-primary btn-lg btn-block" 
+                [disabled]="!car.disponible"
+                (click)="openReservationDialog()">
+                Réserver maintenant
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Similar cars section -->
+      <div *ngIf="similarCars.length > 0" class="row mt-5">
+        <div class="col-md-12">
+          <h3 class="text-center">Voitures similaires</h3>
+          <div class="row mt-4">
+            <div class="col-md-4" *ngFor="let similarCar of similarCars">
+              <div class="card">
+                <img [src]="similarCar.image" class="card-img-top img-fixed-height" alt="Car Image">
+                <div class="card-body">
+                  <h5 class="card-title">{{ similarCar.marque }} {{ similarCar.model }}</h5>
+                  <p class="card-text">Année: {{ similarCar.annee }}</p>
+                  <p class="card-text">Prix: {{ similarCar.prix }}€/jour</p>
+                  <a [routerLink]="['/vehicles', similarCar.id]" class="btn btn-primary">Voir les détails</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .img-fixed-height {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+  }
+</style>
+

@@ -8,7 +8,7 @@ import { LoginComponent } from './examples/login/login.component';
 import { ProfileComponent } from './examples/profile/profile.component';
 import { VehiclesComponent } from "./vehicles/vehicles.component";
 import { RegisterComponent } from "./examples/register/register.component";
-// import { CarDetailComponent } from './car-detail/car-detail.component';
+import { CarDetailComponent } from './car-detail/car-detail.component';
 import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'vehicles', component: VehiclesComponent },
-    // { path: 'vehicles/:id', component: CarDetailComponent },
+    { path: 'vehicles/:id', component: CarDetailComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
     { path: 'your-reservations', component: ProfileComponent, canActivate: [AuthGuard] }
 ];
